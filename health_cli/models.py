@@ -19,3 +19,10 @@ class FoodEntry(Base):
     date = Column(DateTime, nullable=False)
     user = relationship("User", back_populates="entries")
  
+class Goal(Base):
+    __tablename__ = 'goals'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    daily_calories = Column(Integer)
+    weekly_calories = Column(Integer)
+    user = relationship("User", back_populates="goals")
