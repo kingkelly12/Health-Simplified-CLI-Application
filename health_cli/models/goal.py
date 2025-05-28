@@ -9,7 +9,7 @@ Base = declarative_base()
 
 class Goal(Base):
     __tablename__ = 'goals'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     daily_calories = Column(Integer)
     weekly_calories = Column(Integer)

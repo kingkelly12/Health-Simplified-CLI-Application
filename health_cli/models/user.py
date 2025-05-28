@@ -9,7 +9,7 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, nullable=False)
     username = Column(String, unique=True, nullable=False)
     entries = relationship("FoodEntry", back_populates="user")
     goals = relationship("Goal", back_populates="user", uselist=False)
