@@ -1,6 +1,10 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalcemy.orm import declarative_base, relationship, sessionmaker
+from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import create_engine
+from health_cli.models.foodentry import FoodEntry
+from sqlalchemy.orm import sessionmaker
+from health_cli.models.user import User
+
 
 Base = declarative_base()
 
