@@ -57,15 +57,15 @@ def report(user_name: str, report_date: str = str(date.today())):
     goal = db.query(Goal).filter_by(user_id=user.id).first()
     
     total = sum(e.calories for e in entries)
-    typer.echo(f"\n📊 Daily Report for {user_name} ({report_date})")
+    typer.echo(f"\nDaily Report for {user_name} ({report_date})")
     typer.echo(f"• Total calories: {total}")
     
     if goal:
-        status = "✅ Under" if total <= goal.daily_calories else f"❌ Over by {total - goal.daily_calories}"
+        status = "Under" if total <= goal.daily_calories else f"Over by {total - goal.daily_calories}"
         typer.echo(f"• Daily goal: {goal.daily_calories} ({status})")
     
     if entries:
-        typer.echo("\n🍽 Food Entries:")
+        typer.echo("\nFood Entries:")
         for entry in entries:
             typer.echo(f"- {entry.food}: {entry.calories} cal")
             
@@ -80,7 +80,7 @@ def meal_plan(user_name: str, week_start: str):
     goal = db.query(Goal).filter_by(user_id=user.id).first()
     target = goal.daily_calories if goal else 2000
     
-    typer.echo(f"\n📅 Weekly Meal Plan for {user_name} (Week {week_start})")
+    typer.echo(f"\nWeekly Meal Plan for {user_name} (Week {week_start})")
     typer.echo(f"Daily target: ~{target} calories\n")
     
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
