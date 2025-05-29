@@ -1,7 +1,6 @@
 import typer
 from datetime import date
-from .database import SessionLocal
-from .models import User, FoodEntry, Goal
+from database import SessionLocal, User, FoodEntry, Goal
 
 app = typer.Typer()
 db = SessionLocal()
