@@ -92,4 +92,4 @@ def meal_plan(user_name: str, week_start: str):
         typer.echo(f"- Snacks: [Add snacks] (~{target//10} cal)\n")
 
 if __name__ == "__main__":
-    app()
+    app(prog_name="health-cli")
