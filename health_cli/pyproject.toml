@@ -3,16 +3,17 @@ requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "health-cli"
-version = "0.1.0"
-description = "CLI for tracking nutrition and meal planning"
+name = "healthcli"
+version = "1.0.0"
+authors = [{name="Your Name"}]
+description = "Nutrition tracking CLI"
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
     "typer>=0.9.0",
     "sqlalchemy>=2.0.0",
-    "rich>=13.0.0"  # For pretty CLI output
+    "rich>=13.0.0"
 ]
 
 [project.scripts]
-health-cli = "health_cli.commands:app"
+health-cli = "health_cli.cli:app"
