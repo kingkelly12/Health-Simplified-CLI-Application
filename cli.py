@@ -4,8 +4,8 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, BarColumn
-from database import SessionLocal
-from models import User, FoodEntry, Goal
+from database import SessionLocal, init_db
+from models import User, FoodEntry, Goal, MealPlan
 
 db = SessionLocal()
 app = typer.Typer(rich_markup_mode="markdown")
@@ -99,59 +99,6 @@ def entry_add(user_name: str, food: str, calories: int, entry_date: str = str(da
     db.add(entry)
     db.commit()
     typer.echo(f"Added {food} ({calories} cal) for {user_name}")
-    
-@app.command()
-def entry_update(
-    entry_id: int = typer.Argument(..., help="ID of entry to update"),
-    food: str = typer.Option(None, "--food", "-f", help="New food name"),
-    calories: int = typer.Option(None, "--calories", "-c", help="New calorie count"),
-    date: str = typer.Option(None, "--date", "-d", help="New date (YYYY-MM-DD)")
-):
-    """Update an existing food entry"""
-    from datetime import datetime
-    
-    with SessionLocal() as db:
-        entry = db.query(FoodEntry).filter_by(id=entry_id).first()
-        if not entry:
-            typer.echo(f"[red]Error: Entry ID {entry_id} not found[/red]", err=True)
-            raise typer.Exit(1)
-        
-        if food:
-            entry.food = food
-        if calories:
-            entry.calories = calories
-        if date:
-            entry.date = datetime.strptime(date, "%Y-%m-%d").date()
-        
-        db.commit()
-        typer.echo(f"[green] Updated entry #{entry_id}:[/green]")
-        typer.echo(f"- Food: {entry.food}")
-        typer.echo(f"- Calories: {entry.calories}")
-        typer.echo(f"- Date: {entry.date}")
-
-@app.command()
-def entry_delete(
-    entry_id: int = typer.Argument(..., help="ID of entry to delete"),
-    force: bool = typer.Option(False, "--force", "-f", help="Skip confirmation")
-):
-    """Delete a food entry"""
-    with SessionLocal() as db:
-        entry = db.query(FoodEntry).filter_by(id=entry_id).first()
-        if not entry:
-            typer.echo(f"[red]Error: Entry ID {entry_id} not found[/red]", err=True)
-            raise typer.Exit(1)
-        
-        if not force:
-            confirm = typer.confirm(
-                f"Delete entry #{entry_id} ({entry.food}, {entry.calories} cal on {entry.date})?"
-            )
-            if not confirm:
-                typer.echo("[yellow]Cancelled[/yellow]")
-                raise typer.Exit(0)
-        
-        db.delete(entry)
-        db.commit()
-        typer.echo(f"[green] Deleted entry #{entry_id}[/green]")
 
 @app.command()
 def goal_set(user_name: str, daily: int, weekly: int):

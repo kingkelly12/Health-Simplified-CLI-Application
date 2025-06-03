@@ -1,7 +1,7 @@
 from datetime import date
 from sqlalchemy.orm import Session
 from rich.table import Table
-from .models import FoodEntry, Goal
+from health_cli.models import FoodEntry, Goal
 
 class NutritionReporter:
     """Minimal nutrition report generator"""
