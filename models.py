@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.types import JSON
 from database import Base
 
 class User(Base):
@@ -25,3 +26,15 @@ class Goal(Base):
     weekly_calories = Column(Integer)
     user_id = Column(Integer, ForeignKey('users.id'), unique=True)
     user = relationship("User", back_populates="goals")
+    
+class MealPlan(Base):
+    __tablename__ = 'meal_plans'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    date = Column(Date, nullable=False)
+    meals = Column(JSON)  
+    
+    user = relationship("User", back_populates="meal_plans")
+
+class User(Base):
+    meal_plans = relationship("MealPlan", back_populates="user")
